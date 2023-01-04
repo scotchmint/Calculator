@@ -1,0 +1,70 @@
+body {
+    background-color: darkcyan;
+}
+
+.calculator {
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: darkgray;
+    border: 5px solid;
+    border-radius: 25px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.display {
+    border: 2px solid;
+    border-radius: 10px;
+    background-color: lavender;
+    padding: 20px;
+    margin-top: 15px;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    font-size: 30px;
+}
+
+.numbers-operators {
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+}
+
+.box {
+    background-color: lightgray;
+    border: 2px solid;
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box:hover {
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+.clear {
+    background-color: crimson;
+}
+
+.delete {
+    background-color: lightsalmon;
+}
