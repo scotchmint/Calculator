@@ -5,7 +5,8 @@ body {
 .calculator {
     height: 800px;
     display: flex;
-    justify-content: center;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
     align-items: center;
 }
 
@@ -47,8 +48,8 @@ body {
     background-color: lightgray;
     border: 2px solid;
     border-radius: 10px;
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     padding: 10px;
     font-size: 20px;
     display: flex;
@@ -67,4 +68,14 @@ body {
 
 .delete {
     background-color: lightsalmon;
+}
+
+.history {
+    border: 5px solid;
+    border-radius: 25px;
+    background-color: wheat;
+    width: 400px;
+    height: 600px;
+    padding: 20px;
+    font-size: 30px;
 }
