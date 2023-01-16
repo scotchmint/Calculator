@@ -106,7 +106,7 @@ numbers.forEach(function(number){
       {
         firstNum += e.target.textContent;
         result = firstNum;
-        display.textContent = firstNum;
+        display.textContent = result;
       }
     }
 
@@ -116,6 +116,7 @@ numbers.forEach(function(number){
 
 let temp = '';
 let historyDisplay = '';
+let historyElement = '';
 
 operators.forEach(function(op){
   op.addEventListener('click', function(e){
@@ -123,23 +124,35 @@ operators.forEach(function(op){
 
     if (e.target.textContent !== "=")
     {
-      if (firstNum === '')
+      if (firstNum === "") 
       {
         firstNum = 0;
-      }
-      else if (secondNum)
+      } 
+      else if (secondNum) 
       {
-        secondNum = '';
+        if (temp === "√") 
+        {
+          result = sqrt(secondNum);
+          firstNum = result;
+          secondNum = "";
+        } 
+        else 
+        {
+          result = operate(temp, +firstNum, +secondNum);
+          display.textContent = result;
+          secondNum = "";
+        }
       }
 
       temp = operator;
-      display.textContent += " " + operator;
+      display.textContent += " " + temp;
     }
     else
     {
       if(temp === '√')
       {
         result = sqrt(secondNum);
+        firstNum = result;
       }
       else
       {
@@ -148,7 +161,8 @@ operators.forEach(function(op){
       
       if (result === undefined)
       {
-        firstNum = '';        
+        firstNum = '';   
+        secondNum = '';     
       }
       else
       {
@@ -165,7 +179,6 @@ operators.forEach(function(op){
         
         historyArr.push(historyDisplay);
 
-        let historyElement;
         for (let i = 0; i < historyArr.length; ++i)
         {
           historyElement = document.createElement('div');
