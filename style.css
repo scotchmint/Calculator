@@ -5,6 +5,7 @@ body {
 .calculator {
     height: 800px;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row-reverse;
     justify-content: space-evenly;
     align-items: center;
@@ -78,4 +79,9 @@ body {
     height: 600px;
     padding: 20px;
     font-size: 30px;
+}
+
+.history,
+.display {
+    overflow: auto;
 }
