@@ -83,7 +83,7 @@ numbers.forEach(function(number){
 
     if (operator === '')
     {
-      firstNum += +e.target.textContent;
+      firstNum += e.target.textContent;
       display.textContent = firstNum;
     }
     else
@@ -106,7 +106,7 @@ numbers.forEach(function(number){
       {
         firstNum += e.target.textContent;
         result = firstNum;
-        display.textContent = result;
+        display.textContent = firstNum;
       }
     }
 
