@@ -74,8 +74,6 @@ let secondNum = '';
 let operator = '';
 let result;
 
-display.textContent = '0';
-
 numbers.forEach(function(number){
   number.addEventListener('click', function(e){
     if (result >= 0 || result < 0)
@@ -93,7 +91,16 @@ numbers.forEach(function(number){
       if (operator !== "=")
       {
         secondNum += e.target.textContent;
-        display.textContent = firstNum + " " + operator + " " + secondNum;
+
+        if (operator === "√") 
+        {
+          display.textContent = operator + " " + secondNum;
+        } 
+        else 
+        {
+          display.textContent = firstNum + " " + operator + " " + secondNum;
+        }
+        
       }
       else
       {
@@ -120,18 +127,25 @@ operators.forEach(function(op){
       {
         firstNum = 0;
       }
-
-      display.textContent += " " + operator;
-      temp = operator;
-
-      if (secondNum)
+      else if (secondNum)
       {
         secondNum = '';
       }
+
+      temp = operator;
+      display.textContent += " " + operator;
     }
     else
     {
-      result = operate(temp, +firstNum, +secondNum);
+      if(temp === '√')
+      {
+        result = sqrt(secondNum);
+      }
+      else
+      {
+        result = operate(temp, +firstNum, +secondNum);
+      }
+      
       if (result === undefined)
       {
         firstNum = '';        
@@ -139,7 +153,16 @@ operators.forEach(function(op){
       else
       {
         display.textContent = result;
-        historyDisplay = firstNum + " " + temp + " " + secondNum + " " + operator + " " + result;
+
+        if(temp === '√')
+        {
+          historyDisplay = temp + " " + secondNum + " " + operator + " " + result;
+        }
+        else
+        {
+          historyDisplay = firstNum + " " + temp + " " + secondNum + " " + operator + " " + result;
+        }
+        
         historyArr.push(historyDisplay);
 
         let historyElement;
