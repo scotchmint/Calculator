@@ -23,9 +23,10 @@ body {
 }
 
 .display {
-    border: 2px solid;
+    border: 2px solid black;
     border-radius: 10px;
     background-color: lavender;
+    color: blue;
     padding: 20px;
     margin-top: 15px;
     width: 300px;
@@ -45,9 +46,9 @@ body {
     width: 350px;
 }
 
-.box {
+button {
     background-color: lightgray;
-    border: 2px solid;
+    border: 2px solid black;
     border-radius: 10px;
     width: 80px;
     height: 80px;
@@ -58,7 +59,7 @@ body {
     justify-content: center;
 }
 
-.box:hover {
+button:hover {
     background-color: lightblue;
     cursor: pointer;
 }
@@ -72,9 +73,10 @@ body {
 }
 
 .history {
-    border: 5px solid;
+    border: 5px solid black;
     border-radius: 25px;
     background-color: wheat;
+    color: darkblue;
     width: 400px;
     height: 600px;
     padding: 20px;
