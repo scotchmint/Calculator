@@ -62,6 +62,18 @@ function operate(operator, num1, num2)
   return Math.round(operation *1000) / 1000;
 }
 
+function checkMathError(result)
+{
+  let resultStr = result.toString();
+
+  if(resultStr === "NaN" || resultStr === "Infinity" || resultStr === "-Infinity")
+  {
+    return true;
+  }
+
+  return false;
+}
+
 let history = document.querySelector('.history');
 let display = document.querySelector('.display');
 let numbers = document.querySelectorAll('.number');
@@ -112,7 +124,7 @@ numbers.forEach(function(number){
           }
           dot.disabled = true;
         }
-
+        
         secondNum += e.target.textContent;
 
         if (operator === "√") 
@@ -140,13 +152,14 @@ numbers.forEach(function(number){
 let tempOperator = '';
 let historyDisplay = '';
 let historyElement = '';
+let checkResult = false;
 
 operators.forEach(function(op){
   op.addEventListener('click', function(e){
     operator = e.target.textContent;
 
     dot.disabled = false;
-    
+
     if (e.target.textContent !== "=")
     {
       if (firstNum === "") 
@@ -163,8 +176,15 @@ operators.forEach(function(op){
         else 
         {
           result = operate(tempOperator, +firstNum, +secondNum);
-          display.textContent = result;
+
+          checkResult = checkMathError(result);
+          if (checkResult) 
+          {
+            result = "MATH ERROR!";
+          }
+          
         }
+        display.textContent = result;
       }
       secondNum = "";
       tempOperator = operator;
@@ -187,15 +207,17 @@ operators.forEach(function(op){
         result = operate(tempOperator, +firstNum, +secondNum);
       }
       
+      checkResult = checkMathError(result);
+
       if (result === undefined)
       {
         firstNum = '';   
         secondNum = '';     
       }
-      else if(result.toString() === "NaN" || result.toString() === "Infinity")
+      else if(checkResult)
       {
-        display.textContent = 'MATH ERROR!';
-        result = 0;
+        result = 'MATH ERROR!';
+        display.textContent = result;
         secondNum = '';
       }
       else
