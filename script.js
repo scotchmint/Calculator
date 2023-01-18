@@ -15,14 +15,7 @@ function multiply(num1, num2)
 
 function divide(num1, num2)
 {
-  if (num2 === 0)
-  {
-    display.textContent = "ERROR";
-  }
-  else
-  {
-    return num1 / num2;
-  }
+  return num1 / num2;
 }
 
 function module(num1, num2)
@@ -32,7 +25,7 @@ function module(num1, num2)
 
 function sqrt(num)
 {
-  return Math.sqrt(num);
+  return Math.round(Math.sqrt(num) * 1000) / 1000;
 }
 
 function operate(operator, num1, num2)
@@ -46,19 +39,27 @@ function operate(operator, num1, num2)
     operator = "/";
   }
 
+  let operation = 0;
     switch(operator)
     {
         case "+":
-            return add(num1, num2);
+            operation = add(num1, num2);
+            break;
         case "-":
-            return subtract(num1, num2);
+            operation = subtract(num1, num2);
+            break;
         case "*":
-            return multiply(num1, num2);
+            operation = multiply(num1, num2);
+            break;
         case "/":
-            return divide(num1, num2);
+            operation = divide(num1, num2);
+            break;
         case "%":
-            return module(num1, num2);
-    }
+            operation = module(num1, num2);
+            break;
+    } 
+  
+  return Math.round(operation *1000) / 1000;
 }
 
 let history = document.querySelector('.history');
@@ -67,15 +68,27 @@ let numbers = document.querySelectorAll('.number');
 let operators = document.querySelectorAll('.operator');
 let clear = document.querySelector('.clear');
 let del = document.querySelector('.delete');
+let dot = document.getElementById('dot');
 
 let historyArr = [];
 let firstNum = '';
 let secondNum = '';
 let operator = '';
-let result;
+let result = undefined; // undefined makes calculations easier than numbers or strings
 
 numbers.forEach(function(number){
   number.addEventListener('click', function(e){
+    
+    if (e.target.textContent === '.')
+    {
+      // if user enters dot only, prefix it with zero
+      if(!firstNum)
+      {
+        firstNum = '0';
+      }
+      dot.disabled = true;
+    }
+
     if (result >= 0 || result < 0)
     {
       firstNum = result;
@@ -90,6 +103,16 @@ numbers.forEach(function(number){
     {
       if (operator !== "=")
       {
+        if (e.target.textContent === '.')
+        {
+          // if user enters dot only, prefix it with zero
+          if(!secondNum)
+          {
+            secondNum = '0';
+          }
+          dot.disabled = true;
+        }
+
         secondNum += e.target.textContent;
 
         if (operator === "√") 
@@ -114,7 +137,7 @@ numbers.forEach(function(number){
   });
 });
 
-let temp = '';
+let tempOperator = '';
 let historyDisplay = '';
 let historyElement = '';
 
@@ -122,6 +145,8 @@ operators.forEach(function(op){
   op.addEventListener('click', function(e){
     operator = e.target.textContent;
 
+    dot.disabled = false;
+    
     if (e.target.textContent !== "=")
     {
       if (firstNum === "") 
@@ -130,33 +155,36 @@ operators.forEach(function(op){
       } 
       else if (secondNum) 
       {
-        if (temp === "√") 
+        if (tempOperator === "√") 
         {
           result = sqrt(secondNum);
           firstNum = result;
-          secondNum = "";
         } 
         else 
         {
-          result = operate(temp, +firstNum, +secondNum);
+          result = operate(tempOperator, +firstNum, +secondNum);
           display.textContent = result;
-          secondNum = "";
         }
       }
-
-      temp = operator;
-      display.textContent += " " + temp;
+      secondNum = "";
+      tempOperator = operator;
+      display.textContent += " " + tempOperator;
     }
     else
     {
-      if(temp === '√')
+      if (display.textContent.includes('.'))
+      {
+        dot.disabled = true;
+      }
+
+      if(tempOperator === '√')
       {
         result = sqrt(secondNum);
         firstNum = result;
       }
       else
       {
-        result = operate(temp, +firstNum, +secondNum);
+        result = operate(tempOperator, +firstNum, +secondNum);
       }
       
       if (result === undefined)
@@ -164,17 +192,29 @@ operators.forEach(function(op){
         firstNum = '';   
         secondNum = '';     
       }
+      else if(result.toString() === "NaN" || result.toString() === "Infinity")
+      {
+        display.textContent = 'MATH ERROR!';
+        result = 0;
+        secondNum = '';
+      }
       else
       {
-        display.textContent = result;
-
-        if(temp === '√')
+        // if result is integer re-enable the dot button
+        if (result % 1 === 0) 
         {
-          historyDisplay = temp + " " + secondNum + " " + operator + " " + result;
+          dot.disabled = false;
+        }
+
+        display.textContent = result;
+        
+        if(tempOperator === '√')
+        {
+          historyDisplay = tempOperator + " " + secondNum + " " + operator + " " + result;
         }
         else
         {
-          historyDisplay = firstNum + " " + temp + " " + secondNum + " " + operator + " " + result;
+          historyDisplay = firstNum + " " + tempOperator + " " + secondNum + " " + operator + " " + result;
         }
         
         historyArr.push(historyDisplay);
