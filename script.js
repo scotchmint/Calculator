@@ -74,6 +74,17 @@ function checkMathError(result)
   return false;
 }
 
+function clearScreen() 
+{
+  historyArr = [];
+  history.textContent = "";
+  display.textContent = "";
+  firstNum = "";
+  secondNum = "";
+  operator = "";
+  result = undefined;
+}
+
 let history = document.querySelector('.history');
 let display = document.querySelector('.display');
 let numbers = document.querySelectorAll('.number');
@@ -252,3 +263,5 @@ operators.forEach(function(op){
 
     });
   });
+
+clear.addEventListener('click', clearScreen);
