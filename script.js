@@ -89,9 +89,9 @@ let history = document.querySelector('.history');
 let display = document.querySelector('.display');
 let numbers = document.querySelectorAll('.number');
 let operators = document.querySelectorAll('.operator');
-let clear = document.querySelector('.clear');
-let del = document.querySelector('.delete');
 let dot = document.getElementById('dot');
+let clearBtn = document.querySelector('.clear');
+let deleteBtn = document.querySelector('.delete');
 
 let historyArr = [];
 let firstNum = '';
@@ -112,6 +112,7 @@ numbers.forEach(function(number){
       dot.disabled = true;
     }
 
+    // in the next operation, result will be the first number in the calculation
     if (result >= 0 || result < 0)
     {
       firstNum = result;
@@ -138,7 +139,7 @@ numbers.forEach(function(number){
         
         secondNum += e.target.textContent;
 
-        if (operator === "√") 
+        if (operator === "√") // special handling for square root because it takes one number only
         {
           display.textContent = operator + " " + secondNum;
         } 
@@ -148,7 +149,7 @@ numbers.forEach(function(number){
         }
         
       }
-      else
+      else // user can add more numbers to result shown on screen to start a new calculation with it
       {
         firstNum += e.target.textContent;
         result = firstNum;
@@ -156,7 +157,6 @@ numbers.forEach(function(number){
       }
     }
 
-    
   });
 });
 
@@ -169,15 +169,16 @@ operators.forEach(function(op){
   op.addEventListener('click', function(e){
     operator = e.target.textContent;
 
-    dot.disabled = false;
+    dot.disabled = false; // re-enable dot after entering an operator
 
+    // handle chain calculations
     if (e.target.textContent !== "=")
-    {
-      if (firstNum === "") 
+    {    
+      if (firstNum === "") // this is important if user enter operator before entering any number
       {
         firstNum = 0;
-      } 
-      else if (secondNum) 
+      }
+      else if (secondNum) // at this point: first, second numbers and operator are all ready for calculations
       {
         if (tempOperator === "√") 
         {
@@ -197,11 +198,12 @@ operators.forEach(function(op){
         }
         display.textContent = result;
       }
-      secondNum = "";
+
+      secondNum = ""; // empty second number so user can chain operations
       tempOperator = operator;
       display.textContent += " " + tempOperator;
     }
-    else
+    else // handle when user enter operator "="
     {
       if (display.textContent.includes('.'))
       {
@@ -215,23 +217,30 @@ operators.forEach(function(op){
       }
       else
       {
+        // handle problem (firstNum + "empty secondNum" = result)
+        if (secondNum === "") 
+        {
+          secondNum = "0";
+        }
+
         result = operate(tempOperator, +firstNum, +secondNum);
       }
-      
+
       checkResult = checkMathError(result);
 
+      // reset numbers if user get an undefined result by mistake
       if (result === undefined)
       {
         firstNum = '';   
         secondNum = '';     
       }
-      else if(checkResult)
+      else if(checkResult) // handle dividing by zero or NaN results
       {
         result = 'MATH ERROR!';
         display.textContent = result;
         secondNum = '';
       }
-      else
+      else // if everything is normal, print result on screen and assign calculation to history
       {
         // if result is integer re-enable the dot button
         if (result % 1 === 0) 
@@ -260,8 +269,10 @@ operators.forEach(function(op){
         history.appendChild(historyElement);
       }
     }
-
+    
+    // reset second number after every successful operation so that user can chain operations using result
+    secondNum = '';
     });
   });
 
-clear.addEventListener('click', clearScreen);
+clearBtn.addEventListener('click', clearScreen);
