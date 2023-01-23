@@ -29,7 +29,7 @@ body {
     background-color: lavender;
     color: crimson;
     padding: 20px;
-    margin-top: 15px;
+    /* margin-top: 15px; */
     width: 300px;
     height: 100px;
     display: flex;
@@ -79,7 +79,7 @@ button:hover {
     background-color: wheat;
     color: darkblue;
     width: 400px;
-    height: 600px;
+    height: 670px;
     padding: 20px;
     font-size: 30px;
 }
@@ -87,4 +87,15 @@ button:hover {
 .history,
 .display {
     overflow: auto;
+}
+
+#h {
+    width: fit-content;
+    height: fit-content;
+    margin-top: 10px;
+    background-color: antiquewhite;
+}
+
+.hide {
+    display: none;
 }

@@ -94,6 +94,11 @@ let dot = document.getElementById('.');
 let clearBtn = document.querySelector('.clear');
 let deleteBtn = document.querySelector('.delete');
 
+let showHide = document.querySelector('#h');
+showHide.addEventListener('click', function() {
+  history.classList.toggle('hide');
+});
+
 // Using strings with numbers is a must when dealing with display input
 let historyArr = [];
 let firstNum = '';
@@ -119,12 +124,6 @@ numbers.forEach(function(number){
         firstNum = '0';
       }
       dot.disabled = true;
-    }
-
-    // in the next operation, result will be the first number in the calculation
-    if (result >= 0 || result < 0)
-    {   
-      firstNum = result;
     }
 
     if (operator === '')
@@ -154,7 +153,6 @@ numbers.forEach(function(number){
         } 
         else 
         {
-          //display.textContent = firstNum + " " + operator + " " + secondNum;
           display.textContent = firstNum + operator + secondNum;
         }
         
@@ -280,6 +278,12 @@ operators.forEach(function(op){
       }
     }
     
+    // in the next operation, result will be the first number in the calculation
+    if(result >= 0 || result < 0)
+    {
+      firstNum = result;
+    }
+
     // reset second number after every successful operation so that user can chain operations using result
     secondNum = '';
     });
