@@ -1,5 +1,6 @@
 body {
     background-color: darkcyan;
+    font-family: 'Signika Negative', sans-serif;
 }
 
 .calculator {
@@ -26,7 +27,7 @@ body {
     border: 2px solid black;
     border-radius: 10px;
     background-color: lavender;
-    color: blue;
+    color: crimson;
     padding: 20px;
     margin-top: 15px;
     width: 300px;
