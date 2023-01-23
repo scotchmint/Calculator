@@ -83,6 +83,7 @@ function clearScreen()
   secondNum = "";
   operator = "";
   result = undefined;
+  dot.disabled = false;
 }
 
 let history = document.querySelector('.history');
@@ -93,6 +94,7 @@ let dot = document.getElementById('dot');
 let clearBtn = document.querySelector('.clear');
 let deleteBtn = document.querySelector('.delete');
 
+// Using strings with numbers is a must when dealing with display input
 let historyArr = [];
 let firstNum = '';
 let secondNum = '';
@@ -102,6 +104,13 @@ let result = undefined; // undefined makes calculations easier than numbers or s
 numbers.forEach(function(number){
   number.addEventListener('click', function(e){
     
+    // Handle the situation when the user enters a number after math error
+    if(display.textContent.includes("MATH ERROR!"))
+    {
+      firstNum = 0;
+      display.textContent = firstNum;
+    }
+
     if (e.target.textContent === '.')
     {
       // if user enters dot only, prefix it with zero
@@ -114,7 +123,7 @@ numbers.forEach(function(number){
 
     // in the next operation, result will be the first number in the calculation
     if (result >= 0 || result < 0)
-    {
+    {   
       firstNum = result;
     }
 
@@ -141,11 +150,12 @@ numbers.forEach(function(number){
 
         if (operator === "√") // special handling for square root because it takes one number only
         {
-          display.textContent = operator + " " + secondNum;
+          display.textContent = operator + secondNum;
         } 
         else 
         {
-          display.textContent = firstNum + " " + operator + " " + secondNum;
+          //display.textContent = firstNum + " " + operator + " " + secondNum;
+          display.textContent = firstNum + operator + secondNum;
         }
         
       }
@@ -201,7 +211,7 @@ operators.forEach(function(op){
 
       secondNum = ""; // empty second number so user can chain operations
       tempOperator = operator;
-      display.textContent += " " + tempOperator;
+      display.textContent += tempOperator;
     }
     else // handle when user enter operator "="
     {
@@ -276,3 +286,71 @@ operators.forEach(function(op){
   });
 
 clearBtn.addEventListener('click', clearScreen);
+
+deleteBtn.addEventListener('click', function() {
+
+  if (display.textContent === "MATH ERROR!")
+  {
+    firstNum = '';
+    secondNum = '';
+
+    display.textContent = firstNum;
+  }
+  else
+  {
+    let displaySplit = display.textContent.split("");
+    let length = displaySplit.length;
+
+    displaySplit = displaySplit.slice(0, length - 1).join("");
+    firstNum = ''; // This is important so the user can add more numbers to firstNum after using delete
+    display.textContent = displaySplit;
+
+    if (!displaySplit.includes(".")) 
+    {
+      dot.disabled = false;
+    }
+
+    let arr = [];
+
+    if (operator)
+    {
+      arr = displaySplit.split(operator);
+    }
+    else
+    {
+      arr = displaySplit.split(" ");
+    }
+
+    let arrLength = arr.length;
+
+    if (arrLength > 1) // If the user use delete with two operands and an operator
+    {
+      firstNum = arr[0];
+      secondNum = arr[1];
+    } 
+    else // If the user use delete with only one number on screen
+    {
+      firstNum = arr[0];
+
+      // Solve the problem when firstNum is re-assigned with current result when the user enters an operator
+      result = undefined;
+
+      if (operator) // If the user deletes an operator, remove it
+      {
+        operator = '';
+      }
+    }
+
+    // Handle problems that happen when the user deletes a dot
+    if(operator !== '' && !secondNum.includes('.'))
+    {
+      dot.disabled = false;
+    }
+    else if (firstNum && operator === '' && display.textContent.includes('.'))
+    {
+      dot.disabled = true;
+    }
+  
+  }
+
+});
