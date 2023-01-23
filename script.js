@@ -90,7 +90,7 @@ let history = document.querySelector('.history');
 let display = document.querySelector('.display');
 let numbers = document.querySelectorAll('.number');
 let operators = document.querySelectorAll('.operator');
-let dot = document.getElementById('dot');
+let dot = document.getElementById('.');
 let clearBtn = document.querySelector('.clear');
 let deleteBtn = document.querySelector('.delete');
 
@@ -353,4 +353,16 @@ deleteBtn.addEventListener('click', function() {
   
   }
 
+});
+
+// keyboard support
+window.addEventListener('keydown', function(e) {
+  let currentKey = e.key;
+
+  if (currentKey === "Enter")
+  {
+    currentKey = "=";
+  }
+
+  this.document.getElementById(currentKey).click();
 });
