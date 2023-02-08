@@ -8,19 +8,19 @@ body {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row-reverse;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
 .container {
     background-color: darkgray;
     border: 5px solid;
     border-radius: 25px;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
 }
 
 .display {
@@ -28,33 +28,30 @@ body {
     border-radius: 10px;
     background-color: lavender;
     color: crimson;
-    padding: 20px;
-    /* margin-top: 15px; */
-    width: 300px;
-    height: 100px;
+    padding: 10px;
+    margin: 15px 0px;
+    width: 240px;
+    height: 80px;
     display: flex;
     align-items: flex-end;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .numbers-operators {
-    padding: 10px;
-    gap: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 350px;
+    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
 }
 
 button {
     background-color: lightgray;
     border: 2px solid black;
     border-radius: 10px;
-    width: 80px;
-    height: 80px;
-    padding: 10px;
+    width: 60px;
+    height: 60px;
     font-size: 20px;
+    font-weight: 800;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,10 +75,10 @@ button:hover {
     border-radius: 25px;
     background-color: wheat;
     color: darkblue;
-    width: 400px;
-    height: 670px;
+    width: 260px;
+    height: 500px;
     padding: 20px;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .history,
@@ -92,8 +89,8 @@ button:hover {
 #h {
     width: fit-content;
     height: fit-content;
-    margin-top: 10px;
     background-color: antiquewhite;
+    padding: 10px;
 }
 
 .hide {
